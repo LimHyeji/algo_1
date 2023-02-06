@@ -18,8 +18,10 @@ public class A001_FactorialTest {
     }
     // 리턴값을 활용한 재귀로 고친 형태
     private static int factorial3(int n) {
-        //채워보세요
-
+        if (n == 1) {
+        	return 1;
+        }
+    	return factorial3(n-1)*n;
     }
 
     public static void main(String[] args) {
