@@ -2,7 +2,7 @@ package 임혜지;
 
 import java.util.Scanner;
 
-public class A006_SWEA1289 {
+public class A006_SWEA1289_원재의메모리복구하기 {
 	static boolean index;
 
 	public static int recur(String s, int idx) {

@@ -2,7 +2,7 @@ package 임혜지;
 
 import java.util.Scanner;
 
-public class A007_BJ17478 {
+public class A007_BJ17478_재귀함수가뭔가요 {
 	static int N;
 	static final String FIRST_SENTENCE = "어느 한 컴퓨터공학과 학생이 유명한 교수님을 찾아가 물었다.\n";
 	static final String STR1 = "\"재귀함수가 뭔가요?\"\n";
