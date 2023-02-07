@@ -5,37 +5,45 @@ import java.util.Scanner;
 
 public class A011__SWEA1210_Ladder1 {
 	static int[][] ladder = new int[100][100];// 사다리 이차원 배열
-	static ArrayList<Integer> start = new ArrayList<>(); // 출발점들
-	static boolean[][] visit; //
 	static int a, b;// 도착점 위치
 	static int res;//결과값(도착점에 도달 가능한 출발점 x좌표)
 
 	public static void main(String args[]) throws Exception {
 		Scanner sc = new Scanner(System.in);
-		int T;
-		T = sc.nextInt();// 테스트번호 입력
-
+		int T;//테스트번호
+		for(int test_case=1;test_case<=10;test_case++) {//테스트 10번 수행
+			T = sc.nextInt();// 테스트번호 입력
+			
 		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 100; j++) {
 				ladder[i][j] = sc.nextInt();
-				if (ladder[i][j] == 1) {// 출발점일 경우
-					start.add(j); // 가로 인덱스를 리스트에 추가
-				}
 				if (ladder[i][j] == 2) {
 					a = i;
 					b = j; // 도착점의 위치 저장
 				}
 			}
 		}
-
-		sol(start.get(0),start.get(0),0);//첫번째 출발점부터 시작(출발점 x좌표, 현재 x좌표, 현재 y좌표)
-
-		System.out.println("#" + T + " " + res);
+		sol(a,b);
+		System.out.println("#" + test_case + " " + res);
+		}
 	}
-
-	public static void sol(int idx,int x,int y) {
+	
+	public static void sol(int i,int j) {
+		if(i<=0) {//인덱스 벗어나면 
+			res=j;//출발점의 x좌표 저장
+			return;//종료
+		}
+		ladder[i][j]=0;//1이었던 곳 지나갈때마다 0으로 바꾸고 지나가기
 		
-		start.remove(idx);	//이미 시도한 출발점에 대해서는 삭제
+		if(j-1>=0&&ladder[i][j-1]==1) {
+			//인덱스 벗어나지 않으면서 1인 경우 (왼쪽)
+			sol(i,j-1);
+		}else if(j+1<100&&ladder[i][j+1]==1) {
+			//인덱스 벗어나지 않으면서 1인 경우 (오른쪽)
+			sol(i,j+1);
+		}else {
+			sol(i-1,j);//왼쪽도 오른쪽도 없으면 무조건 위쪽이 있음
+		}
 		
 	}
 }
