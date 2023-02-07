@@ -1,6 +1,6 @@
 package 박승수;
 import java.util.Scanner;
-public class A007_BJ17478 {
+public class A007_BJ17478_재귀함수가뭔가요 {
 	static int max;
 	public static void recur(int n) {
 		

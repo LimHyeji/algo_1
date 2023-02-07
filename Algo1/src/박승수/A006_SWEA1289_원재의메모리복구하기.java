@@ -1,6 +1,6 @@
 package 박승수;
 import java.util.*;
-public class A006_SWEA1289 {
+public class A006_SWEA1289_원재의메모리복구하기 {
 	static String memory;
 	
 	public static int recur(int idx, boolean zero) {
