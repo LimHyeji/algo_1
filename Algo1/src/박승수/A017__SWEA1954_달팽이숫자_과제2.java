@@ -2,7 +2,7 @@ package 박승수;
 import java.util.*;
 public class A017__SWEA1954_달팽이숫자_과제2 {
 	static int board[][]; //달팽이 board 만들 변수 선언
-	static int[] dy = {0,-1,0,1}; // 우 하 좌 상 순서로 움직이도록 방향설정 
+	static int[] dy = {0,1,0,-1}; // 우 하 좌 상 순서로 움직이도록 방향설정 
 	static int[] dx = {1,0,-1,0}; // 우 하 좌 상 순서로 움직이도록 방향설정 
 	
 	public static void main(String[] args) {
@@ -19,12 +19,12 @@ public class A017__SWEA1954_달팽이숫자_과제2 {
 	public static void soultion(int N) {
 		board = new int[N][N]; // N*N으로 달팽이 배열 넣을 자리 만들어주기 
 		
-		int y = 0;	// 변수들 초기화
-		int x = 0;
-		int idx = 0;
-		int ty = 0;
-		int tx = 0;
-		int cnt = 1;
+		int y = 0;	// 움직이기 전 위치
+		int x = 0;	// 움직이기 전 위치
+		int idx = 0; // 움직일 방향
+		int ty = 0; // 움직일 위치 
+		int tx = 0; // 움직일 위치 
+		int cnt = 1; // 달팽이 배열에 넣을 
 		while (true) { // 무한루프
 			
 			board[y][x] = cnt; // board의 y,x좌표에 cnt 값 넣어주기
