@@ -32,8 +32,8 @@ public class A019_BJ12891_DNA비밀번호 {
 		str= in.readLine().toCharArray();// 한 라인 문자열 입력받음
 
 		cnt = new int[4];// 'A','C','G','T' 개수 입력받을 배열
-		tempCnt=new int[4];
-		total=0;
+		tempCnt=new int[4];//입력받은 문자열의 'A','C','G','T' 개수
+		total=0;//출력할 경우의 수
 		
 		st = new StringTokenizer(in.readLine(), " ");// 한 라인 입력받음
 		for (int i = 0; i < 4; i++) {
@@ -41,25 +41,25 @@ public class A019_BJ12891_DNA비밀번호 {
 		}
 
 		for(int i=0;i<p;i++) {
-		check(str[i]);//현재 문자열의 A G C T 개수 세어놓기
+		check(str[i]);//현재 문자열의 A C G T 개수 세어놓기
 		}
 		
 		if(tempCnt[0]>=cnt[0]&&tempCnt[1]>=cnt[1]&&tempCnt[2]>=cnt[2]&&tempCnt[3]>=cnt[3]) {//개수 조건 만족 시에
 			total++;//경우의 수 증가
 		}
 
-		for(int i=p;i<s;i++) {//
-			int start=i-p;//
-			unCheck(str[start]);//
+		for(int i=p;i<s;i++) {//s-p번 반복
+			int start=i-p;//0번부터 증가
+			unCheck(str[start]);//고를 때마다 저장한 문자 개수--
 			check(str[i]);//
 			if(tempCnt[0]>=cnt[0]&&tempCnt[1]>=cnt[1]&&tempCnt[2]>=cnt[2]&&tempCnt[3]>=cnt[3]) {//개수 조건 만족 시에
 				total++;//경우의 수 증가
 			}
 		}
-		System.out.println(total);
+		System.out.println(total);//결과 출력
 	}
 	
-	public static void check(char c) {//재사용으로 메소드화
+	public static void check(char c) {//재사용으로 메소드화, 문자열의 각 문자 개수 세기
 			if(c=='A') {
 				tempCnt[0]++;
 			}
@@ -74,7 +74,7 @@ public class A019_BJ12891_DNA비밀번호 {
 			}	
 	}
 	
-	public static void unCheck(char c) {//재사용으로 메소드화
+	public static void unCheck(char c) {//재사용으로 메소드화, 문자열 고를 때마다 기존 개수에서 1씩 빼기
 		if(c=='A') {
 			tempCnt[0]--;
 		}
