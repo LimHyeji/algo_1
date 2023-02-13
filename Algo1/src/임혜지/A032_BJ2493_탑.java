@@ -22,24 +22,21 @@ public class A032_BJ2493_탑 {
 		int temp=arr[n]; 
 		int tempIdx=n;
 		for(int i=n-1;i>0;i--) {//거꾸로 가면서(n-1부터 1까지)
-			if(arr[i]>=temp) {
-				for(int j=i;j<tempIdx;j++) {
-				str.append(" ").append(i);
+			if(arr[i]>=temp) {//최대값 등장 시에
+				for(int j=i;j<tempIdx;j++) {//그간 기록되지 않은 만큼
+				str.append(" ").append(i);// 최대값 출력
 				}
-				temp=arr[i];
-				tempIdx=i;
+				temp=arr[i];//최대값 업데이트
+				tempIdx=i;//최대값의 인덱스 업데이트
 			}
-			else if(i==1) {
-				for(int j=i;j<tempIdx;j++) {
-				str.append(" ").append(0);
+			else if(i==1) {//마지막 반복문일 때
+				for(int j=i;j<tempIdx;j++) {//그간 기록되지 않은 만큼
+				str.append(" ").append(0);//0 출력
 				}
 				break;
 			}
-			else {
-				continue;
-			}
 		}
-		str.append(" 0");
-		System.out.println(str.reverse().toString());
+		str.append(" 0");//첫번째 타워는 무조건 0
+		System.out.println(str.reverse().toString());//출력
 	}
 }
