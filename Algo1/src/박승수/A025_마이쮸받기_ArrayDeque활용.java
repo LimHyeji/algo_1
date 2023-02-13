@@ -8,7 +8,7 @@ public class A025_마이쮸받기_ArrayDeque활용 {
 	public static void main(String[] args) {
 		ArrayDeque<ArrayList <Integer>> queue = new ArrayDeque<ArrayList <Integer>>(); // 마이쮸 	받을 줄 Deque 선언 (번호, 받을 마이쮸 수)
 		ArrayList<Integer> temp;
-		int Mychew = 20; // 총 가지고 잇는 마이쮸 
+		int Mychew = 20; // 총 가지고 있는 마이쮸 
 		int peopleCnt = 1; // 사람의 번호
 		
 		while (true) {
@@ -22,9 +22,7 @@ public class A025_마이쮸받기_ArrayDeque활용 {
 			temp.set(1, temp.get(1)+1); // 다음에 가져갈 마이쮸 카운팅 + 1
 			
 			queue.addLast(temp); // 다시 줄스러 가기
-			
-			
-			
+	
 			if (Mychew <= 0) { // 만약 마이쮸 20개가 다 팔렸을경우 멈춘뒤 
 				break;
 			}
