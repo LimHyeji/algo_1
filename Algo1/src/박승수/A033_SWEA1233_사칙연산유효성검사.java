@@ -44,6 +44,10 @@ public class A033_SWEA1233_사칙연산유효성검사 {
 			if (!(Tree[node].equals("-") | Tree[node].equals("+") | Tree[node].equals("*") | Tree[node].equals("/"))){
 				return false; //연산 불가능
 			}
+		}else { // 리프노드인데 연산자라면
+			if (Tree[node].equals("-") | Tree[node].equals("+") | Tree[node].equals("*") | Tree[node].equals("/")) {
+				return false;
+			}
 		}
 		
 		if ((node*2+1)<= N) { // 더 갈 노드가 남아있다면 아래노드들의 상태를 가져옴
