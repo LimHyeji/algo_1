@@ -44,9 +44,9 @@ public class A034_BJ16926_배열돌리기1 {
 	
 	static void rotate() {
     	
-    	for(int t=0; t<min/2; t++) { // 회전 시킬 그룹의 갯수 구하기
-    		int x = t;
-    		int y = t;
+    	for(int i=0; i<min/2; i++) { // 회전 시킬 그룹의 갯수 구하기
+    		int x = i;
+    		int y = i;
     		
     		int temp = board[x][y]; // 마지막에 넣을 값 미리 빼놓음
     		
@@ -56,7 +56,7 @@ public class A034_BJ16926_배열돌리기1 {
     			int ny = y + dy[idx];
     			
     			// 범위 안이라면
-    			if(nx < N-t && ny < M-t && nx >= t && ny >= t) {
+    			if(nx < N-i && ny < M-i && nx >= i && ny >= i) {
     				board[x][y] = board[nx][ny];
     				x = nx;
     				y = ny;
@@ -68,7 +68,7 @@ public class A034_BJ16926_배열돌리기1 {
     			
     		}
     		
-    		board[t+1][t] = temp; // 빼 놓은 값 넣어 줌
+    		board[i+1][i] = temp; // 빼 놓은 값 넣어 줌
     	}
     }
 	
