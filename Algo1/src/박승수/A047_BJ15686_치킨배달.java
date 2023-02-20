@@ -12,7 +12,6 @@ import java.util.StringTokenizer;
 public class A047_BJ15686_치킨배달 { // 치킨배달 클래스 시작
     static int N; // 집 수 N
     static int M; // 남겨놔야하는 치킨 집 수 M
-    static int[][] map; // 치킨 지도 map
     static List<int[]> chickenHouse; // 치킨 집 리스트
     static List<int[]> house; // 집 리스트
     static int[][][] length; // 집과 치킨집 사이의 거리
@@ -27,18 +26,17 @@ public class A047_BJ15686_치킨배달 { // 치킨배달 클래스 시작
         // 입력 시작
         N = Integer.parseInt(st.nextToken()); // 집 수 입력
         M = Integer.parseInt(st.nextToken()); // 남겨놔야 하는 치킨집 수 입력
-        map = new int[N+1][N+1]; // 지도 생성
         chickenHouse = new ArrayList<>(); // 치킨 집 위치 입력 배열 생성
         house = new ArrayList<>(); // 집 위치 입력 배열 생성
-        
+        int temp = 0;
         for(int i = 1; i<=N; i++) { // 지도 행 시작
             st = new StringTokenizer(br.readLine()); // 행마다 열 입력을 위한 스트링 토크나이져
             for(int j = 1; j<=N; j++) { // 지도 열 시작
-                map[i][j] = Integer.parseInt(st.nextToken()); // 지도 입력
-                if(map[i][j] == 1) { // 집 이라면 시작
+                temp = Integer.parseInt(st.nextToken()); // 지도 입력
+                if(temp == 1) { // 집 이라면 시작
                     house.add(new int[] {i,j}); // 집 위치를 추가
                 } // 집 이라면 끝
-                if(map[i][j] == 2) { // 치킨 집이라면
+                if(temp == 2) { // 치킨 집이라면
                     chickenHouse.add(new int[] {i,j}); // 치킨 위치를 추가
                 } // 치킨 집이라면 끝
             } // 지도 열 끝
