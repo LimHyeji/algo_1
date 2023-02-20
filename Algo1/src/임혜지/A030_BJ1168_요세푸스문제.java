@@ -3,40 +3,79 @@ package 임혜지;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
+class SegmentTree {
+    private int[] node;
+    //private int[] input;
+
+    private int N;
+
+    public SegmentTree(int N, int[] input) {
+        int h=(int)Math.ceil(Math.log(N)/Math.log(2));//log(2)N : 자바에는 밑이 2인 로그 N의 값을 구하는 메소드가 없어서 logN/log2 한다
+        int nodeSize1=(int)Math.pow(2, h+1);
+        int nodeSize2=1 << (N + 1);
+        System.out.println(nodeSize1+":"+nodeSize2);
+        node = new int[nodeSize1];
+        //this.input = input;
+    }
+
+    public int make(int cur, int left, int right) {
+        if (left == right) {
+            return node[cur] = 1; //input[left];
+        }
+        int mid = (left + right) / 2;
+        return node[cur] = make(cur * 2, left, mid) + make(cur * 2 + 1, mid + 1, right);
+    }
+
+    public int remove(int cur, int left, int right, int rank) {
+        if (left == right) {
+            node[cur] = 0;
+            return left;
+        }
+        int mid = (left + right) / 2;
+        int ret = 0;
+        if (rank <= node[cur * 2])
+            ret = remove(cur * 2, left, mid, rank);
+        else
+            ret = remove(cur * 2 + 1, mid + 1, right, rank - node[cur * 2]);
+        node[cur] = node[cur * 2] + node[cur * 2 + 1];
+        return ret;
+    }
+}
+
+//288ms
 public class A030_BJ1168_요세푸스문제 {
-	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));// 버퍼로 입력
-		while (true) {
-			StringTokenizer st = new StringTokenizer(in.readLine(), " ");// 공백으로 구분하면서 한 라인 입력
 
-			int n = Integer.parseInt(st.nextToken());// 인원수 입력
-			int k = Integer.parseInt(st.nextToken());// 양의 정수 입력
+    public static void main(String[] args) throws IOException {
+        // BufferedReader로 입력받는다.
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        //int[] input = new int[N];
 
-			Queue<Integer> p = new LinkedList<>();// 원형으로 앉을 사람 나열
+        // N크기의 배열을 생성한다.
+        int K = Integer.parseInt(st.nextToken());
+        int rank = K;
+        // 1 ~ N까지 입력받는다.
+//        for (int i = 0; i < N; i++) {
+//            input[i] = 1;
+//        }
+        SegmentTree tree = new SegmentTree(N, null);// input);
+        tree.make(1, 0, N - 1);
+        sb.append("<");
+        for (int i = 0; i < N; i++) {
+            int removeRet = tree.remove(1, 0, N - 1, rank);
+            sb.append(removeRet + 1);
 
-			for (int i = 1; i <= n; i++) {
-				p.add(i);// 1번부터 n번까지 추가
-			}
-
-			StringBuilder str = new StringBuilder("<");// 출력할 빌더 생성
-			while (true) {
-				if (p.size() == 1) {// 한명만 남을 때
-					str.append(p.peek()).append(">");// 마지막 원소와 닫힌 괄호
-					break;// 반복문 탈출
-				}
-				for (int i = 1; i < k; i++) {// k번째 제거하기 전까지 반복
-					p.add(p.peek());// 1번부터 k-1번까지를 다시 추가하면서
-					p.remove();// 삭제
-				}
-				str.append(p.peek()).append(", ");// k번째 출력문에 추가하면서
-				p.remove();// 삭제
-			}
-
-			System.out.println(str.toString());
-		}
-	}
+            if (i < N - 1) {
+                int size = (N - i - 1);
+                rank = (rank + K - 2) % size + 1;
+                sb.append(", ");
+            }
+        }
+        sb.append(">");
+        System.out.println(sb.toString());
+    }
 }
