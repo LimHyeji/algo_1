@@ -27,6 +27,7 @@ public class A049_BJ1074_Z {
 			
 
 			int mid = (int) Math.pow(2,n)/2; // 먼저 변의 중간 값을 알아낸다.
+			int Add = (int) Math.pow(Math.pow(2,n),2) / 4;	// 더해줄값 미리 저장
 
 			if (x < mid && y < mid) { // 왼쪽 위
 				// 더이상 분할정복이 불가능하다면 마지막 왼쪽위는 + 0 해준다.
@@ -43,14 +44,14 @@ public class A049_BJ1074_Z {
 				}
 				x -= mid;	// x좌표를 빼 다음 분할정복이 가능하도록 한다.
 				// 분할정복이 가능하다면 재귀적으로 분할정복한다.
-				return solution(n-1,hap+(int)Math.pow(Math.pow(2,n),2)/4); // n-1을 통해 사분할해서 다음 확인하고 이전의 모든 인덱스를 더해준다
+				return solution(n-1,hap+Add); // n-1을 통해 사분할해서 다음 확인하고 이전의 모든 인덱스를 더해준다
 			}else if (x < mid && y >= mid) { // 왼쪽 아래
 				// 더이상 분할정복이 불가능하다면 마지막 왼쪽아래는 + 2 해준다.
 				if (n == 1) {
 					return hap+2;
 				}
 				y -= mid;	// y좌표를 빼 다음 분할정복이 가능하도록 한다.
-				return solution(n-1,hap+(int)Math.pow(Math.pow(2,n),2)/4 * 2); // n-1을 통해 사분할해서 다음 확인하고 이전의 모든 인덱스를 더해준다
+				return solution(n-1,hap+Add * 2); // n-1을 통해 사분할해서 다음 확인하고 이전의 모든 인덱스를 더해준다
 			}else {//오른쪽 아래
 				// 더이상 분할정복이 불가능하다면 마지막 오른쪽아래는 + 3 해준다.
 				if (n == 1) {
@@ -58,7 +59,7 @@ public class A049_BJ1074_Z {
 				}
 				x -= mid;	// x좌표를 빼 다음 분할정복이 가능하도록 한다.
 				y -= mid;	// y좌표를 빼 다음 분할정복이 가능하도록 한다.
-				return solution(n-1,hap +(int)Math.pow(Math.pow(2,n),2)/4 * 3); // n-1을 통해 사분할해서 다음 확인하고 이전의 모든 인덱스를 더해준다
+				return solution(n-1,hap +Add * 3); // n-1을 통해 사분할해서 다음 확인하고 이전의 모든 인덱스를 더해준다
 			}
 			
 		}
