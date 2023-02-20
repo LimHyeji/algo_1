@@ -19,21 +19,22 @@ public class A049_BJ1074_Z {
 
 		size = (int) Math.pow(2, n);// 배열의 크기
 
-		sol(0, 0, size);// 사각형 한칸이 (0,0)에서 (size-1,size-1)까지
+		sol(0, 0, size);// 사각형 한칸이 (0,0)에서 시작
 	}
 
 	static void sol(int row, int col, int size) {
-		if (size == 1) {// 한칸일 경우
-			total++;// 순회 숫자 1 증가
-			if (row == r && col == c) {// 원하는 위치와 일치할 경우
-				System.out.println(total - 1);// 결과 출력
-			}
-			return;
+		int newSize = size / 2;// 2분의 1씩 줄여나감
+		if (row == r && col == c) {// 원하는 위치와 일치할 경우
+			System.out.println(total);// 결과 출력하고
+			return;// 종료
+		} else if (r >= row && r < row + size && c >= col && c < col + size) {// 시간초과로 인해 추가된 조건문(조건 내에 있을 경우에만 재귀)
+			sol(row, col, newSize);// 왼쪽 위
+			sol(row, col + newSize, newSize);// 오른쪽 위
+			sol(row + newSize, col, newSize);// 왼쪽 아래
+			sol(row + newSize, col + newSize, newSize);// 오른쪽 아래
+		} else {
+			total += size * size;// 재귀 돌리지 않고 사각형 한칸만큼 더함
 		}
-		int newSize = size / 2;
-		sol(row, col, newSize);
-		sol(row, col + newSize, newSize);
-		sol(row + newSize, col, newSize);
-		sol(row + newSize, col + newSize, newSize);
+
 	}
 }
