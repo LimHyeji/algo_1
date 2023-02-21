@@ -42,7 +42,7 @@ public class A049_BJ1074_Z {
 			int Add = (int) Math.pow(Math.pow(2,n),2) / 4;	// 더해줄값 미리 저장
 
 			if (x < mid && y < mid) { // 왼쪽 위
-				return solution(n-1,hap);	// n-1을 통해 사분할해서 다음 확인한다
+				return solution(n-1,hap);	// n-1을 통해 사분할해서 다음 확인한
 				
 			}else if (x >= mid && y < mid) { // 오른쪽 위
 				x -= mid;	// x좌표를 빼 다음 분할정복이 가능하도록 한다.
