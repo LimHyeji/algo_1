@@ -3,7 +3,7 @@ package 박승수;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+
 
 public class A051_BJ3109_빵집 {
 	static char[][] board;			// 가스관 위치 적을 2차원 배열 선언

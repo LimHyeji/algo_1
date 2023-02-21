@@ -3,7 +3,6 @@ package 박승수;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class A052_BJ1992_쿼드트리_과제9 {
 	static int[][] board;
@@ -20,123 +19,38 @@ public class A052_BJ1992_쿼드트리_과제9 {
 				board[y][x] = temp.charAt(x) - '0';
 			}
 		}
-		
-		sb.append("(");
-		solution(N,0,0);
-		sb.append(")");
+		solution(0,0,N,board[0][0] == 0 ? true : false);
 		
 		System.out.println(sb.toString());
 	}
 	
-	public static void printBoard(int[][] board) {
-		for (int[] a : board ) {
-			System.out.println(Arrays.toString(a));
+	static boolean check(int row, int col, int size, boolean zeroFlag) {//정사각형이 모두 같은 값인지 체크하는 메소드
+		for (int i = row; i < row + size; i++) {//(row,col)부터 확인하면서
+			for (int j = col; j < col + size; j++) {
+				if (zeroFlag == true && board[i][j] == 1) {//만약 (row,col)의 값이 0이고 배열값이 1이라면
+					return false;//false 리턴
+				}
+				if (zeroFlag == false && board[i][j] == 0) {//만약 (row,col)의 값이 1이고 배열값이 0이라면
+					return false;//false 리턴
+				}
+			}
 		}
-		System.out.println();
+		return true;//모두 일치한다면 true 리턴
 	}
 	
-	public static void solution(int n,int y, int x) { // 좌표 기준은 왼쪽 위로 설정한다 
-		System.out.println(n);
-		if (n==2) {
-			System.out.println("처리완료 ");
-			if (board[y][x] == board[y+1][x] && board[y+1][x+1] == board[y][x+1] && board[y][x] ==board[y+1][x+1]) {
-				sb.append(board[y][x]);
-				return;
-			}
-			for (int ty = y; ty < y+2; ty++) {
-				for(int tx = x; tx < x+2; tx++) {
-					sb.append(board[ty][tx]);
-				}
-			}
-			return;
-		}
-		
-		int hn = n/2;
-		int sameCheck = board[y][x];
-		boolean isOk = true;
-		System.out.println("왼쪽위");
-		for (int ty = y; ty < y+hn;ty++) {		// 왼쪽위
-			for (int tx = x; tx < x+hn; tx++) {
-				if (board[ty][tx] != sameCheck) {
-					System.out.println("다름");
-					sb.append("(");
-					solution(hn,y,x);
-					sb.append(")");
-					isOk = false;
-					break;
-				}
-			}
-			if (isOk == false) {
-				break;
-			}else {
-				sb.append(sameCheck);
-			}
+	public static void solution(int row, int col, int size, boolean zeroFlag) { // 좌표 기준은 왼쪽 위로 설정한다 
+		if(check(row, col, size, zeroFlag)) {//만약 그 정사각형의 값이 모두 일치한다면
+			sb.append(zeroFlag==true?0:1);//그 값으로 압축하고
+			return;//재귀 종료
 		}
 		
 		
-		sameCheck = board[y][x+hn];
-		isOk = true;
-		
-		System.out.println("오른쪽위");
-		for (int ty = y; ty < y+hn;ty++) {		// 오른쪽 위
-			for (int tx = x+hn; tx < x+n; tx++) {
-				if (board[ty][tx] != sameCheck) {
-					System.out.println("다름");
-					sb.append("(");
-					solution(hn,y,x+hn);
-					sb.append(")");
-					isOk = false;
-					break;
-				}
-			}
-			if (isOk == false) {
-				break;
-			}else {
-				sb.append(sameCheck);
-			}
-		}
-		
-		sameCheck = board[y+hn][x];
-		isOk = true;
-		System.out.println("왼쪽아래");
-		for (int ty = y+hn; ty < y+n;ty++) {		// 왼쪽 아래
-			for (int tx = x; tx < x+hn; tx++) {
-				if (board[ty][tx] != sameCheck) {
-					System.out.println("다름");
-					sb.append("(");
-					solution(hn,y+hn,x);
-					sb.append(")");
-					isOk = false;
-					break;
-				}
-			}
-			if (isOk == false) {
-				break;
-			}else {
-				sb.append(sameCheck);
-			}
-		}
-		
-		sameCheck = board[y+hn][x+hn];
-		isOk = true;
-		System.out.println("오른쪽 아래");
-		for (int ty = y+hn; ty < y+n;ty++) {		// 오른쪽 아래
-			for (int tx = x+hn; tx < x+n; tx++) {
-				if (board[ty][tx] != sameCheck) {
-					System.out.println("다름");
-					sb.append("(");
-					solution(hn,y+hn,x+hn);
-					sb.append(")");
-					isOk = false;
-					break;
-				}
-			}
-			if (isOk == false) {
-				break;
-			}else {
-				sb.append(sameCheck);
-			}
-		}
+		sb.append("(");//괄호를 열면서 4개의 칸으로 분리
+		solution(row, col, size / 2, board[row][col] == 0 ? true : false);//왼쪽 위칸
+		solution(row, col + size / 2, size / 2, board[row][col + size / 2] == 0 ? true : false);//오른쪽 위칸
+		solution(row + size / 2, col, size / 2, board[row + size / 2][col] == 0 ? true : false);//왼쪽 아래칸
+		solution(row + size / 2, col + size / 2, size / 2, board[row + size / 2][col + size / 2] == 0 ? true : false);//오른쪽 아래칸
+		sb.append(")");//재귀 끝날 때 괄호 닫음
 		
 	}
 
