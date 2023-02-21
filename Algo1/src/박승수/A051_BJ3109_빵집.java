@@ -9,7 +9,7 @@ public class A051_BJ3109_빵집 {
 	static char[][] board;			// 가스관 위치 적을 2차원 배열 선언
 	static int X;					// X크기
 	static int Y;					// Y크기
-	static int[] dy = {-1,0,1};		// 오른쪽으로 이동할떄 방향
+	static int[] dy = {-1,0,1};		// 오른쪽으로 이동할떄 방향설정
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,7 +19,7 @@ public class A051_BJ3109_빵집 {
 		
 		board = new char[Y][X];
 		
-		for (int y = 0; y < Y ; y++) {
+		for (int y = 0; y < Y ; y++) {	//배열에 값 넣어주기
 			String t = br.readLine();
 			for (int x = 0; x < X; x ++) {
 				board[y][x] = t.charAt(x);
@@ -27,10 +27,10 @@ public class A051_BJ3109_빵집 {
 		}
 		
 		int answer = 0;
-		for (int y = 0; y<Y ; y++) {
-			if (board[y][0]=='.') {
-				if (solution(y,0)) {
-					answer++;
+		for (int y = 0; y<Y ; y++) {	//y를 0부터 돌며
+			if (board[y][0]=='.') {		//[y][0]이 . 일경우 진행해본다
+				if (solution(y,0)) {	//만약 끝까지 도착했을경우
+					answer++;			//정답 +1 해준다
 				}
 				
 			}
