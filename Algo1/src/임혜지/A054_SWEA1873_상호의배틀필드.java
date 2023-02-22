@@ -36,14 +36,14 @@ public class A054_SWEA1873_상호의배틀필드 {
 
 		public void changeDir(int dir) {// 전차의 방향을 바꿈
 			this.dir = dir;// 방향 배열의 인덱스
-			map[row][col] = direction[dir];
+			map[row][col] = direction[dir];// 전차 표시 바꿈
 		}
 
 		public void move(int row, int col) {// 전차의 위치를 바꿈 (인덱스를 벗어나지 않고, 이동 가능할 경우 체크)
-			map[this.row][this.col] = '.';
-			this.row = row;
-			this.col = col;
-			map[this.row][this.col] = direction[dir];
+			map[this.row][this.col] = '.';// 현 위치를 평지로 바꾸면서
+			this.row = row;// 전차 행 위치 업데이트
+			this.col = col;// 전차 열 위치 업데이트
+			map[this.row][this.col] = direction[dir];// 이동한 위치를 전차 표시로 바꿈
 		}
 	}
 
@@ -54,7 +54,7 @@ public class A054_SWEA1873_상호의배틀필드 {
 	static Car car;// 전차
 	static int[] dirRow = { -1, 1, 0, 0 };// 전차의 방향 : 위, 아래, 왼쪽, 오른쪽
 	static int[] dirCol = { 0, 0, -1, 1 };// 전차의 방향 : 위, 아래, 왼쪽, 오른쪽
-	static char[] direction = { '^', 'v', '<', '>' };
+	static char[] direction = { '^', 'v', '<', '>' };// 전차의 방향에 따른 표시들
 
 	static StringBuilder str = new StringBuilder("");// 출력할 결과
 
@@ -108,8 +108,9 @@ public class A054_SWEA1873_상호의배틀필드 {
 					car.changeDir(3);
 				}
 
-				if (cmd[i] != 'S' && check(car.row + dirRow[car.dir], car.col + dirCol[car.dir])) {
-					car.move(car.row + dirRow[car.dir], car.col + dirCol[car.dir]);
+				if (cmd[i] != 'S' && check(car.row + dirRow[car.dir], car.col + dirCol[car.dir])) {// S 명령어 아니면서, 이동
+																									// 가능하면
+					car.move(car.row + dirRow[car.dir], car.col + dirCol[car.dir]);// 이동
 					continue;
 				}
 
@@ -118,8 +119,8 @@ public class A054_SWEA1873_상호의배틀필드 {
 				}
 			}
 
+			// 결과 붙이기
 			str.append("#").append(test_case).append(" ");
-			//결과 붙이기
 			for (int i = 0; i < h; i++) {
 				for (int j = 0; j < w; j++) {
 					str.append(map[i][j]);
@@ -127,28 +128,28 @@ public class A054_SWEA1873_상호의배틀필드 {
 				str.append("\n");
 			}
 		}
-		System.out.println(str.toString());
+		System.out.println(str.toString());// 결과 한꺼번에 출력
 	}
 
-	static boolean check(int row, int col) {
+	static boolean check(int row, int col) {// 이동 가능한지 확인하는 메소드
 		if (row >= 0 && row < h && col >= 0 && col < w && map[row][col] == '.') {// 맵을 벗어나지 않으면서 평지인 경우
 			return true;// 이동 가능
 		}
 		return false;// 그 외의 경우에는 이동 불가
 	}
 
-	static void shoot(int row, int col) {
-		if (row < 0 || row >= h || col < 0 || col >= w)
-			return;// 인덱스 벗어나면 종료
+	static void shoot(int row, int col) {// 포탄 발사 메소드
+		if (row < 0 || row >= h || col < 0 || col >= w)// 인덱스 벗어나면
+			return;// 종료
 
 		if (map[row][col] == '*') {// 벽돌 벽과 만나면
 			map[row][col] = '.';// 평지로 바꾸면서
 			return;// 종료
 		}
 
-		if (map[row][col] == '#')
-			return;// 강철 벽과 만나면 종료
+		if (map[row][col] == '#')// 강철벽과 만나면
+			return;// 종료
 
-		shoot(row + dirRow[car.dir], col + dirCol[car.dir]);
+		shoot(row + dirRow[car.dir], col + dirCol[car.dir]);// 벽을 만나지 않고, 맵을 초과하지 않는 경우 그대로 전진
 	}
 }
