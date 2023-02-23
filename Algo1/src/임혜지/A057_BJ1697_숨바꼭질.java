@@ -5,79 +5,67 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Queue;
-import java.util.StringTokenizer;
 
 public class A057_BJ1697_숨바꼭질 {
-	static int n, k;// 시작점과 도착점
-	static int res;// 도착점에 도착하는 가장 빠른 시간
-	static int time[];// 방문한 점에 도달 가능한 최소 시간 배열
-	static boolean visit[];
-	static ArrayList<Integer> graph[];
+	static int n, k;// 수빈이가 있는 위치와 동생이 있는 위치
+	static ArrayList<Integer> g[];// 인접리스트
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));// 버퍼로 입력
-		StringTokenizer st = new StringTokenizer(in.readLine());// 공백으로 구분해 한 라인 입력
+	static class Node {// 각 위치와 이동횟수 저장할 클래스
+		int x;
+		int cost;
 
-		n = Integer.parseInt(st.nextToken());// 시작점 입력
-		k = Integer.parseInt(st.nextToken());// 도착점 입력
-
-		res = Math.abs(n - k);// 나올 수 있는 결과의 한계 설정
-		time = new int[100001];// 방문한 점에 도달 가능한 최소 시간을 최소 시간을 저장하기 위해 생성
-		Arrays.fill(time, res);// 한계값으로 채움
-		visit=new boolean[100001];
-		
-		graph=new ArrayList[100001];
-		for(int i=0;i<100001;i++) {
-			graph[i]=new ArrayList<>();
+		public Node(int x, int cost) {
+			this.x = x;
+			this.cost = cost;
 		}
-		
-		sol();// 점 n에서 시작하고, 0번째임
-		System.out.println(res);// 최소 시간 출력
 	}
 
-//	static void sol(int cur, int cnt) {
-//		if (cnt >= res)// 이동 시간이 한계값 이상일 경우
-//			return;// 종료
-//		if (cur == k) {// 현재 점이 도착점일 경우
-//			res = Math.min(res, cnt);// 최소 이동시간인지 판단후
-//			return;// 종료
-//		}
-//		if (visit[cur] <= cnt)
-//			return;// 현재점에 이동할 수 있는 시간의 최소값 이상일 경우 종료
-//		visit[cur] = cnt;// 초과하지 않을 경우 업데이트
-//
-//		if (cur + 1 <= 100000)// +1한 값이 주어진 범위를 초과하지 않는다면
-//			sol(cur + 1, cnt + 1);// 이동
-//		if (cur - 1 >= 0)// -1한 값이 주어진 조건을 초과하지 않는다면
-//			sol(cur - 1, cnt + 1);// 이동
-//		if (cur * 2 <= 100000 && cur * 2 <= k + res)// *2한 값이 주어진 조건을 초과하지 않는 경우
-//			sol(cur * 2, cnt + 1);// 이동
-//	}
+	public static void main(String[] args) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		String[] temp = in.readLine().split(" ");
+		n = Integer.parseInt(temp[0]);// 수빈이의 위치 입력
+		k = Integer.parseInt(temp[1]);// 동생의 위치 입력
 
-	static void sol() {
-		Queue<Integer> q = new ArrayDeque<>();
-
-		q.offer(n);
-		visit[n]=true;
-		time[n] = 0;
-
-		int cur = -1;
-		while (!q.isEmpty()) {
-			cur = q.poll();
-			if(cur==k) {
-				res=Math.min(res, time[cur]);
-			}
-			//i+1, i-1, i*2
-			for(int i:graph[cur]) {
-				if(!visit[i]) {
-					q.offer(i);
-					visit[i]=true;
-				}
-			}
-
-			
+		g = new ArrayList[100001];// 인접리스트 생성
+		for (int i = 0; i < 100001; i++) {// 각 정점에 대해
+			g[i] = new ArrayList<>();// 생성
 		}
+
+		System.out.println(sol());// 결과(최단경로) 출력
+	}
+
+	static int sol() {
+		Queue<Node> q = new ArrayDeque<>();// bfs 순회를 위한 큐 생성
+		boolean visited[] = new boolean[100001];// 방문 여부 확인할 플래그 생성
+
+		q.offer(new Node(n, 0));// 첫번째 노드 큐에 저장
+		visited[n] = true;// 첫번째 노드 방문 체크
+
+		Node cur = null;// 큐에서 꺼낼 노드 변수
+		while (!q.isEmpty()) {// 방문할 곳이 없을 때까지 반복
+			cur = q.poll();// 큐에서 방문할 수 있는 노드 꺼내서
+
+			if (cur.x == k) {// 만약 위치가 찾는 곳과 같다면
+				return cur.cost;// 그 결과(최단경로) 리턴
+			}
+
+			if (cur.x - 1 >= 0 && !visited[cur.x - 1]) {// 인덱스 범위 넘어가지 않으면서 방문한 적 없는 노드일 때
+				q.offer(new Node(cur.x - 1, cur.cost + 1));// 큐에 위치와 함께 이동횟수 1 추가한 값 저장하고
+				visited[cur.x - 1] = true;// 방문 체크
+			}
+
+			if (cur.x + 1 < 100001 && !visited[cur.x + 1]) {// 인덱스 범위 넘어가지 않으면서 방문한 적 없는 노드일 때
+				q.offer(new Node(cur.x + 1, cur.cost + 1));// 큐에 위치와 함께 이동횟수 1 추가한 값 저장하고
+				visited[cur.x + 1] = true;// 방문 체크
+			}
+
+			if (cur.x * 2 < 100001 && !visited[cur.x * 2]) {// 인덱스 범위 넘어가지 않으면서 방문한 적 없는 노드일 때
+				q.offer(new Node(cur.x * 2, cur.cost + 1));// 큐에 위치와 함께 이동횟수 1 추가한 값 저장하고
+				visited[cur.x * 2] = true;// 방문 체크
+			}
+
+		}
+		return -1;// 예외 경우
 	}
 }
