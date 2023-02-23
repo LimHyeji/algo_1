@@ -20,9 +20,12 @@ public class A053_SWEA1247_최적경로 {
 			Company = new Loc(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]));
 			Home = new Loc(Integer.parseInt(temp[2]),Integer.parseInt(temp[3]));
 			
+			int cnt = 0;
 			for (int idx = 4; idx < N*2+4; idx +=2) {
-				
+				Customer[cnt++] = new Loc(Integer.parseInt(temp[idx]),Integer.parseInt(temp[idx+1]));
 			}
+			
+			
 		}
 
 	}
@@ -37,4 +40,10 @@ class Loc{
 		this.y = y;
 		this.x = x;
 	}
+
+	@Override
+	public String toString() {
+		return "Loc [y=" + y + ", x=" + x + "]";
+	}
+	
 }
