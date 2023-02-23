@@ -15,65 +15,42 @@ public class A057_BJ1697_숨바꼭질 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String[] temp = br.readLine().split(" ");
-		int N = Integer.parseInt(temp[0]);
-		K = Integer.parseInt(temp[1]);
-		Arrays.fill(DP,100001);
+		int N = Integer.parseInt(temp[0]);			//시작지점
+		K = Integer.parseInt(temp[1]);				//도착지점
+		Arrays.fill(DP,100001); 					//갈수있는 입력의 최대치를 최대 이동거리로 초기화 한다.
 		
 		if (N == K) {
-			System.out.println(0);
+			System.out.println(0);					// 만약 시작지점과 도착지점이 같다면 0을  출력하고 종료한다 
 		}else {
-			BFS(N);
-			System.out.println(DP[K]);
+			BFS(N);									// BFS로 이동해보고
+			System.out.println(DP[K]);				// K이동까지의 최소거리를 출력한다.
 		}
 		
 		
 		
 	}
 	
-	public static void DFS(int v, int Loc) {
-		if (Loc == K) {
-			System.out.println(v);
-			return;
-		}
-		DP[Loc] = v;
-		
-		if (Loc*2 <= 100000 && DP[Loc*2] > v+1) {
-			DFS(v+1,Loc*2);
-		}
-		
-		if (Loc+1 <= 10000 && DP[Loc+1] > v+1){
-			DFS(v+1,Loc+1);
-		}
-		
-		if (Loc-1 >= 0 && DP[Loc-1] > v+1) {
-			DFS(v+1,Loc-1);
-		}
-			
-	}
-	
-	public static int BFS(int N) {
-		Deque<DIS> queue = new ArrayDeque<DIS>();
-		queue.add(new DIS(N,0));
-		while (!queue.isEmpty()) {
-			DIS nowDIS = queue.removeFirst();
-			if (nowDIS.loc*2 <= 100000 && DP[nowDIS.loc*2] > nowDIS.times+1) {
-				DP[nowDIS.loc*2] = nowDIS.times+1;
-				queue.add(new DIS(nowDIS.loc*2,nowDIS.times+1));
+	public static void BFS(int N) {
+		Deque<DIS> queue = new ArrayDeque<DIS>(); 		//움직임 저장할 큐를 만들어주고
+		queue.add(new DIS(N,0));						//초기위치를 저장해준다. 
+		while (!queue.isEmpty()) {						//큐가 빌때까지
+			DIS nowDIS = queue.removeFirst();			//큐에서 정보하나 빼고 계산을 진행한다.
+			if (nowDIS.loc*2 <= 100000 && DP[nowDIS.loc*2] > nowDIS.times+1) {	// 최대입력을 넘어가지 않고, 최소 이동횟수 일경우
+				DP[nowDIS.loc*2] = nowDIS.times+1;								// DP 업데이트 한다음
+				queue.add(new DIS(nowDIS.loc*2,nowDIS.times+1));				// 큐에 넣어준다 
 			}
 			
-			if (nowDIS.loc+1 <= 100000 && DP[nowDIS.loc+1] > nowDIS.times+1) {
-				DP[nowDIS.loc+1] = nowDIS.times+1;
-				queue.add(new DIS(nowDIS.loc+1,nowDIS.times+1));
+			if (nowDIS.loc+1 <= 100000 && DP[nowDIS.loc+1] > nowDIS.times+1) {	// 최대입력을 넘어가지 않고, 최소 이동횟수 일경우
+				DP[nowDIS.loc+1] = nowDIS.times+1;								// DP 업데이트 한다음
+				queue.add(new DIS(nowDIS.loc+1,nowDIS.times+1));				// 큐에 넣어준다 
 			}
 			
-			if (nowDIS.loc-1 >= 0 &&DP[nowDIS.loc-1] > nowDIS.times+1) {
-				DP[nowDIS.loc-1] = nowDIS.times+1;
-				queue.add(new DIS(nowDIS.loc-1,nowDIS.times+1));
+			if (nowDIS.loc-1 >= 0 &&DP[nowDIS.loc-1] > nowDIS.times+1) {		// 최소입력을 넘어가지 않고, 최소 이동횟수 일경우
+				DP[nowDIS.loc-1] = nowDIS.times+1;								// DP 업데이트 한다음
+				queue.add(new DIS(nowDIS.loc-1,nowDIS.times+1));				// 큐에 넣어준다 
 			}
 			
 		}
-		
-		return DP[K];
 	}
 
 }
