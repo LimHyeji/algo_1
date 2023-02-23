@@ -112,8 +112,6 @@ public class A058_BJ17135_캐슬디펜스 {
 		
 	}
 	
-	
-	
 	public static void Combinations(int v, int start) {
 		if(v == 3) {										//조합을 다 구했다면
 			CopyMonsterList = new ArrayList<Monster>();
