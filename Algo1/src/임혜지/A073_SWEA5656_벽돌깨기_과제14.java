@@ -1,5 +1,6 @@
 package 임혜지;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -125,6 +126,9 @@ public class A073_SWEA5656_벽돌깨기_과제14 {
 
 	static void shoot(int cnt) {// 슈팅하는 메소드
 		if (cnt == n || getBlockCnt() == 0) {// 슈팅이 완료되었거나 블럭이 존재하지 않는다면
+//			if(res>getBlockCnt()) {
+//				printMap();
+//			}
 			res = Math.min(res, getBlockCnt());// 블럭 개수 최소값 업데이트
 			return;// 종료
 		}
@@ -163,6 +167,7 @@ public class A073_SWEA5656_벽돌깨기_과제14 {
 			}
 
 		}
+
 		drop();// 모두 떨어뜨림
 
 		shoot(cnt + 1);// 다음 슈팅으로 넘어감
@@ -182,7 +187,7 @@ public class A073_SWEA5656_벽돌깨기_과제14 {
 		ArrayList<Integer> list;// 리스트 선언
 		for (int j = 0; j < w; j++) {// 각 열에 대해
 			list = new ArrayList<>();// 리스트 생성하고
-			for (int i = w - 1; i >= 0; i--) {// 거꾸로 순회하면서
+			for (int i = h - 1; i >= 0; i--) {// 거꾸로 순회하면서
 				if (map[i][j] > 0) {// 블럭이 있다면
 					list.add(map[i][j]);// 리스트에 추가하고
 					map[i][j] = 0;// 0으로 바꾸기
@@ -191,7 +196,7 @@ public class A073_SWEA5656_벽돌깨기_과제14 {
 
 			if (list.size() == 0)// 리스트가 비었다면(해당 열에 블럭이 존재하지 않는다면)
 				continue;
-			int idx = w - 1;// 아래에서부터
+			int idx = h - 1;// 아래에서부터
 			for (int i : list) {// 리스트 값
 				map[idx--][j] = i;// 모두 저장
 			}
