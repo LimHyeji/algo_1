@@ -3,60 +3,81 @@ package 임혜지;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-class Node {//각 위치에 대한 클래스
-	int i, j;//행과 열 인덱스
-
-	Node(int i, int j) {//행과 열 인덱스를 받는 클래스 생성자
-		this.i = i;
-		this.j = j;
-	}
-}
-
 public class A047_BJ15686_치킨배달 {
-	static int n, m;//도시의 크기, 남는 치킨집 최대 개수
-	static Queue<Node> house = new LinkedList<>();//집 위치들을 저장할 큐
-	static Queue<Node> chicken = new LinkedList<>();//치킨집 위치들을 저장할 큐
-	static PriorityQueue<Integer> distance = new PriorityQueue<>();//거리를 오름차순으로 정리할 우선순위 큐
+	static int n, m;// 도시의 크기, 최대 치킨집 개수
+	static ArrayList<Node> house;// 집 위치 리스트
+	static ArrayList<Node> chicken;// 치킨집 위치 리스트
+	static int[] order;// 치킨집 m개 고르는 조합 배열
+	static int res;// 결과로 출력할 도시 치킨거리 최소값
 
+	static class Node {// 행열 인덱스를 저장할 클래스
+		int row, col;
+
+		Node(int row, int col) {
+			this.row = row;
+			this.col = col;
+		}
+	}
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));//버퍼로 입력
-		StringTokenizer st = new StringTokenizer(in.readLine(), " ");//한 라인 입력
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(in.readLine());
 
-		n = Integer.parseInt(st.nextToken());//도시의 크기
-		m = Integer.parseInt(st.nextToken());//남는 치킨집 최대 개수 
+		n = Integer.parseInt(st.nextToken());// 도시 크기 입력
+		m = Integer.parseInt(st.nextToken());// 치킨집 최대 개수 입력
+		house = new ArrayList<>();// 집 위치 리스트 생성
+		chicken = new ArrayList<>();// 치킨집 위치 리스트 생성
 
-		
-		for (int i = 1; i <= n; i++) {//n by n 크기의 도시 입력을 받기 위해 n줄의
-			st = new StringTokenizer(in.readLine(), " ");//한 라인 입력받고
-			for (int j = 1; j <= n; j++) {//n열에 걸쳐
-				int temp = Integer.parseInt(st.nextToken());//한 칸의 기록 입력
-				if (temp == 1) {//집이라면
-					house.add(new Node(i, j));// 집 위치 저장
-				}
-				if (temp == 2) {//치킨집이라면
-					chicken.add(new Node(i, j));// 치킨집 위치 저장
-				}
+		for (int i = 0; i < n; i++) {
+			st = new StringTokenizer(in.readLine());
+			for (int j = 0; j < n; j++) {
+				int temp = Integer.parseInt(st.nextToken());// 도시 데이터 입력
+				if (temp == 1)// 만약 1이라면
+					house.add(new Node(i, j));// 그 위치를 집 리스트에 추가
+				if (temp == 2)// 2라면
+					chicken.add(new Node(i, j));// 그 위치를 치킨집 리스트에 추가
 			}
 		}
-		int res = 0;//도시에 남은 m개의 치킨거리 저장할
-		//System.out.println(distance);
-		for (int i = 0; i < m; i++) {
-			res += distance.remove();
-		}
-		System.out.println(res);
+		// 입력끝
+		// -----------------------------
+		order = new int[m];// m개의 조합을 입력받을 배열 생성
+		res = Integer.MAX_VALUE;// 최소값 구하기 위한 초기화
+		com(0, 0);// 조합 호출
+		System.out.println(res);// 도시의 치킨거리 최소값 출력
 	}
-	
-	static int findMinD(Node h) {
-		int min=Integer.MAX_VALUE;
-		for(Node c:chicken) {
-			min=Math.min(min, Math.abs(h.i - c.i) + Math.abs(h.j - c.j));
+
+	static void com(int cnt, int start) {
+		if (cnt == m) {// m개의 숫자를 구했을 때
+			getMin(order);// 치킨거리 최소값 구할 메소드 호출
+			return;// 재귀 종료
 		}
-		return min;
+
+		for (int i = start; i < chicken.size(); i++) {
+			order[cnt] = i;
+			com(cnt + 1, i + 1);
+		}
+	}
+
+	static void getMin(int[] order) {// 도시의 치킨거리 최소값 구할 메소드
+		int sum = 0;// 도시의 치킨거리(각 집의 치킨거리 합)
+
+		for (Node h : house) {// 모든 집에 대해
+			int distance = Integer.MAX_VALUE;// 각 집의 거리 최소값 구하기 위한 초기화
+			for (int i = 0; i < order.length; i++) {// m개의 숫자에 대해
+				if (getDistance(chicken.get(order[i]), h) < distance) {// 더 짧은 거리가 등장할 때
+					distance = getDistance(chicken.get(order[i]), h);// 치킨거리 업데이트
+				}
+			}
+			sum += distance;// 치킨거리 합
+		}
+		res = Math.min(res, sum);// 최소값 업데이트
+	}
+
+	static int getDistance(Node a, Node b) {// 두 노드 사이의 거리 구할 메소드
+		return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
 	}
 }
